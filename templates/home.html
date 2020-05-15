@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title> Home</title>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    </head>
+    <body>
+        <h1>Hello World!!!</h1>
+        <form action="http://localhost:5000/user" method="POST">
+            <select name="utenti">
+                {% for item in users %}
+                <option>{{item}}</option>
+                {% endfor %}
+            </select>
+            <button>Vedi statistische</button>
+        </form>
+        <form action="http://localhost:5000/weight" method="POST">
+            <select name="utenti">
+                {% for item in users %}
+                <option>{{item}}</option>
+                {% endfor %}
+            </select>
+            <button>User interaction</button>
+        </form>
+        <form action="http://localhost:5000/bins" method="POST">
+            <button>Bins</button>
+        </form>
+    </body>
+</html>
