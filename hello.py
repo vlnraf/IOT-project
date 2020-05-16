@@ -97,7 +97,7 @@ def mapview():
                 },
                 ],
 
-            style = "height: 1000px; width:1000px; margin:0",
+            style = "height: 700px; width:1200px; margin:0",
             zoom = "15"
             )
     return render_template('example.html', sndmap=sndmap)
