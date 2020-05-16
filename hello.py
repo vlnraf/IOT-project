@@ -15,20 +15,15 @@ def homepage():
         cur.execute("SELECT user.name FROM user")
         user = cur.fetchall()
         user = [row[0] for row in user]
-        cur.execute("SELECT * FROM bin")
-        binn = cur.fetchall()
         cur.close()
-        bin_id = [row[0] for row in binn]
-        bin_type = [row[1] for row in binn]
-        bin_capacity = [row[2] for row in binn]
-        return render_template('index.html', users=user, bin_id=bin_id, bin_type=bin_type, bin_capacity=bin_capacity)
+        return render_template('index.html', users=user)
 
     except Exception as e:
         return('Connection error')
 
 
 
-@app.route("/example")
+@app.route("/map")
 def mapview():
 
     cur, conn = connection()
