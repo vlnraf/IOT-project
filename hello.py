@@ -30,12 +30,34 @@ def homepage():
 
 @app.route("/example")
 def mapview():
-    mymap =Map(
-            identifier="view-side",
-            lat=43.715993,
-            lng=10.3960694,
-            markers=[(37.4419, -122.1419)]
-            )
+
+    cur, conn = connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM bin")
+    binn = cur.fetchall()
+    cur.close()
+    bin_id = [row[0] for row in binn]
+    bin_type = [row[1] for row in binn]
+    bin_capacity = [row[2] for row in binn]
+    cur.close()
+
+    icon = []
+
+    print(bin_capacity)
+
+    for item in bin_capacity:
+        if item == 0:
+            icon.append("https://imagizer.imageshack.com/v2/100x75q90/922/5cNWwn.png")
+        elif item <= 25:
+            icon.append("https://imagizer.imageshack.com/v2/100x75q90/924/caSf6J.png")
+        elif item <= 50:
+            icon.append("https://imagizer.imageshack.com/v2/100x75q90/922/UT703T.png")
+        elif item <= 75:
+            icon.append("https://imagizer.imageshack.com/v2/100x75q90/923/uQj3zL.png")
+        elif item <= 100:
+            icon.append("https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png")
+
+    
 
     sndmap = Map(
             identifier="sndmap",
@@ -44,38 +66,41 @@ def mapview():
 
             markers=[
                 {
-                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'icon': icon[0],
                     'lat': 43.716248,
-                    'lng': -10.402882,
-                    'infobox':"<b>Hello Mann!!</b>"
+                    'lng': 10.402882,
+                    'infobox':"<p>" +str(bin_id[0])+ "</p> <p> " +str(bin_type[0])+ "</p> <p>" +str(bin_capacity[0])+ "%</p>"
                 },
                 {
-                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'icon': icon[1],
                     'lat': 43.718326,
                     'lng': 10.398201,
-                    'infobox':"<b>Hello Womann!!</b>"
+                    'infobox':"<p>" +str(bin_id[1])+ "</p> <p> " +str(bin_type[1])+ "</p> <p>" +str(bin_capacity[1])+ "%</p>"
                 },
                 {
-                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'icon': icon[2],
                     'lat':43.719660 ,
                     'lng':10.403909 ,
-                    'infobox':"<b>Hello Womann!!</b>"
+                    'infobox':"<p>" +str(bin_id[2])+ "</p> <p> " +str(bin_type[2])+ "</p> <p>" +str(bin_capacity[2])+ "%</p>"
                 },
                 {
-                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
-                    'lat':10.407044 ,
-                    'lng':43.722700 ,
-                    'infobox':"<b>Hello Womann!!</b>"
+                    'icon': icon[3],
+                    'lat':43.716660,
+                    'lng':10.403909,
+                    'infobox':"<p>" +str(bin_id[3])+ "</p> <p> " +str(bin_type[3])+ "</p> <p>" +str(bin_capacity[3])+ "%</p>"
                 },
                 {
-                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'icon': icon[4],
                     'lat':43.718481 , 
                     'lng':10.408117 , 
-                    'infobox':"<b>Hello Womann!!</b>"
+                    'infobox':"<p>" +str(bin_id[4])+ "</p> <p> " +str(bin_type[4])+ "</p> <p>" +str(bin_capacity[4])+ "%</p>"
                 },
-                ]
+                ],
+
+            style = "height: 1000px; width:1000px; margin:0",
+            zoom = "15"
             )
-    return render_template('example.html', mymap=mymap, sndmap=sndmap)
+    return render_template('example.html', sndmap=sndmap)
 
 
 @app.route("/bins", methods= ['GET', 'POST'])
