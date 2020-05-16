@@ -16,6 +16,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 500px;
+  width: 1000px;
+}
+
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
@@ -257,6 +265,47 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </div>
 
 <!-- Second Grid -->
+<center>
+    <div id="map"></div>
+     <script>
+       var map;
+       function initMap() {
+            pisa = {lat: 43.7159935, lng: 10.3960694}
+            map = new google.maps.Map(document.getElementById('map'), {
+            center: pisa,
+            zoom: 15
+         });
+
+           var icon ={
+               url: "https://imagizer.imageshack.com/img924/114/R7Mcnh.png",
+               scaledSize: new google.maps.Size(25,50),
+               origin: new google.maps.Point(0,0),
+               anchor: new google.maps.Point(0,0)
+           };
+
+           var locations = [
+                ['prova', 43.716248, 10.402882, 5],
+                ['prova2', 43.718326, 10.398201, 4],
+                ['prova3', 43.719660, 10.403909, 3],
+                ['prova4', 43.722700, 10.407044, 2],
+                ['prova4', 43.718481, 10.408117, 1],
+               
+           ];
+
+           var i = 0;
+
+           for (i=0; i < locations.length; i++){
+            var marker = new google.maps.Marker({
+                position : new google.maps.LatLng(locations[i][1], locations[i][2]),
+                icon: icon,
+                map: map
+            });
+           }
+       }
+     </script>
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQp1EK4oaTlzdzAfjlNX76_HHDv2khEYQ&callback=initMap"
+    async defer></script>
+</center>
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" style="margin-left:330px" id="dustman">
   <div class="w3-content">
     <div class="w3-third w3-center">

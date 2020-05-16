@@ -55,18 +55,31 @@ def user_interaction():
             user = [row[0] for row in data]
             garbage = [row[1] for row in data]
             time = ["" + str(row[2].day) + "/" + str(row[2].month) + "/" + str(row[2].year) for row in data]
+            bar_labels = time
+            bar_values = garbage
+
+
             sql = "SELECT user.name, SUM(user_interaction.garbage_weight), bin.type FROM user JOIN user_interaction ON user.card_id = user_interaction.user_id JOIN bin ON user_interaction.bin_id = bin.id WHERE user.name = %s GROUP BY bin.type"
             cur.execute(sql, name)
             data = cur.fetchall()
             user2 = [row[0] for row in data]
             garbage2 = [row[1] for row in data]
             bin_type2 = [row[2] for row in data]
-            cur.close()
-            bar_labels = time
-            bar_values = garbage
             bar_labels1 = bin_type2
             bar_values1 = garbage2
-            return render_template('user.html', title=str(user[0]), max = 5000, labels=bar_labels, values=bar_values, labels2=bar_labels1, values2=bar_values1)
+
+            
+            sql = "SELECT user.name, SUM(user_interaction.garbage_weight), bin.id FROM user JOIN user_interaction ON user.card_id = user_interaction.user_id JOIN bin ON user_interaction.bin_id = bin.id WHERE user.name = %s GROUP BY bin.type"
+            cur.execute(sql, name)
+            data = cur.fetchall()
+            user3 = [row[0] for row in data]
+            garbage3 = [row[1] for row in data]
+            bin_id = [row[2] for row in data]
+            cur.close()
+            bar_labels2 = bin_id
+            bar_values2 = garbage3
+            cur.close()
+            return render_template('user.html', title=str(user[0]), max = 5000, labels=bar_labels, values=bar_values, labels2=bar_labels1, values2=bar_values1, labels3=bar_labels2, values3=bar_values2)
     
         except Exception as e:
             return('Connection error')
