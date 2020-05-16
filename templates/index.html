@@ -189,12 +189,28 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     87.5% {
         box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
     }
-}</style><style type="text/css">/* This is not a zero-length file! */</style></head><body data-gr-c-s-loaded="true">
+}
+
+
+.bgimg-1 {
+  position: relative;
+  opacity: 0.6;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin:0;
+  background-image: url("static/sfondo1.jpg");
+  min-height: 70%;
+}
+
+
+</style><style type="text/css">/* This is not a zero-length file! */</style></head><body data-gr-c-s-loaded="true">
 
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
   <div class="w3-container w3-row">
     <div class="w3-col s4">
-      <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+      <img src="static/log.png" class="w3-margin-right" style="width:80px">
     </div>
     <div class="w3-col s8 w3-bar">
       <span>Welcome on Smartbin</span><br>
@@ -209,70 +225,63 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   </div>
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
-    <a href="index.html" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-home"></i>&nbsp; Home</a>
-    <a href="#charts" class="w3-bar-item w3-button w3-padding"><i class="fa fa-area-chart"></i>&nbsp; Charts</a>
-    <a href="#dustman" class="w3-bar-item w3-button w3-padding"><i class="	fa fa-automobile"></i>&nbsp; Dustman intervention</a>
+    <a href="http://localhost:5000/" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-home"></i>&nbsp; Home</a>
+    <a href="#statistics" class="w3-bar-item w3-button w3-padding"><i class="fa fa-area-chart"></i>&nbsp; User statistics</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-credit-card"></i>&nbsp; Points</a>
+    <a href="#bin" class="w3-bar-item w3-button w3-padding"><i class="fa fa-trash-o"></i>&nbsp; Bins</a>
+    <a href="#map" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map-marker"></i>&nbsp; Map</a>
     <a href="#about" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>&nbsp; About</a><br><br>
   </div>
 </nav>
 
 <!-- Header -->
-<header class="w3-container w3-light-grey w3-center" style="margin-left:330px; padding:128px 5px">
+<header class="w3-container w3-light-grey w3-center bgimg-1" style="margin-left:330px; padding:128px 5px">
   <img src="static/smartbin.svg" alt="smartbin" id="logo" style="width:30%"/>
   <p class="w3-xlarge">A smart solution for garbage management</p>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Login</button>
+  <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Start</button> -->
 </header>
 
-<!-- First Grid -->
+<!-- Desciption -->
 <div class="w3-row-padding w3-padding-64 w3-container" style="margin-left:330px">
   <div class="w3-content">
-    <div class="w3-twothird" id="charts">
+    <div class="w3-third w3-center">
+    <p>Testo</p>
+    </div>
+  </div>
+</div>
+
+<!-- User statistics -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" style="margin-left:330px" id="statistics">
+  <div class="w3-content">
+   <div class="w3-center" class="charts">
       <h2>User statistics</h2>
        <form action="http://localhost:5000/user" method="POST">
-			<select name="utenti">
+			Select a user: <select name="utenti">
 				{% for item in users %}
 				<option>{{item}}</option>
 				{% endfor %}
 			</select>
-			<button>Vedi statistische</button>
-		</form>
-		<h2>User interactions</h2>
-		<form action="http://localhost:5000/weight" method="POST">
-			<select name="utenti">
-				{% for item in users %}
-				<option>{{item}}</option>
-				{% endfor %}
-			</select>
-			<button>User interaction</button>
-		</form>
-		<h2>Bins usage</h2>
-		<form action="http://localhost:5000/bins" method="POST">
-			<button>Bins</button>
+			<br/><br/>
+			<button>See statistics</button>
 		</form>
     </div>
-
-    <div class="w3-third w3-center">
-    </div>
+    
   </div>
 </div>
 
-<!-- Second Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" style="margin-left:330px" id="dustman">
+<!-- Bins -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" style="margin-left:330px" id="bin">
   <div class="w3-content">
-    <div class="w3-third w3-center">
-    </div>
-
-    <div class="w3-twothird">
-      <h1>Lorem Ipsum</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
-
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+        <div class="w3-center" class="charts">
+            <h2>Bins usage</h2>
+    		<form action="http://localhost:5000/bins" method="POST">
+    			<button>Bins</button>
+    		</form>
+    	</div>
   </div>
 </div>
 
+<!-- First Grid -->
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64" style="margin-left:330px" id="about">
     <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
 </div>

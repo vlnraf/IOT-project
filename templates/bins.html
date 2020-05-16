@@ -12,6 +12,11 @@
 <link href="https://fonts.googleapis.com/css?family=Oswald:600" rel="stylesheet" type='text/css' />
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!--Popup action-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 <title>SMARTBIN</title>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
@@ -21,6 +26,46 @@
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
+</style>
+<!--Popup stile-->
+<style>
+.callout {
+  visibility: hidden;
+  position: fixed;
+  bottom: 35px;
+  right: 20px;
+  margin-left: 20px;
+  max-width: 300px;
+}
+
+.show {
+  visibility: visible;
+
+.callout-header {
+  padding: 25px 15px;
+  background: #555;
+  font-size: 30px;
+  color: white;
+}
+
+.callout-container {
+  padding: 15px;
+  background-color: #ccc;
+  color: black
+}
+
+.closebtn {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: lightgrey;
+}
 </style>
 <style type="text/css">/*
  * contextMenu.js v 1.4.0
@@ -196,7 +241,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
   <div class="w3-container w3-row">
     <div class="w3-col s4">
-      <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+      <img src="static/log.png" class="w3-margin-right" style="width:80px">
     </div>
     <div class="w3-col s8 w3-bar">
       <span>Welcome on Smartbin</span><br>
@@ -211,10 +256,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   </div>
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
-    <a href="index.html" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-home"></i>&nbsp; Home</a>
-    <a href="index.html/#charts" class="w3-bar-item w3-button w3-padding"><i class="fa fa-area-chart"></i>&nbsp; Charts</a>
-    <a href="index.html/#dustman" class="w3-bar-item w3-button w3-padding"><i class="	fa fa-automobile"></i>&nbsp; Dustman intervention</a>
-    <a href="index.html/#about" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>&nbsp; About</a><br><br>
+    <a href="http://localhost:5000/" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-home"></i>&nbsp; Home</a>
+    <a href="http://localhost:5000/#statistics" class="w3-bar-item w3-button w3-padding"><i class="fa fa-area-chart"></i>&nbsp; User statistics</a>
+    <a href="http://localhost:5000/#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-credit-card"></i>&nbsp; Points</a>
+    <a href="http://localhost:5000/#bin" class="w3-bar-item w3-button w3-padding"><i class="fa fa-trash-o"></i>&nbsp; Bins</a>
+    <a href="http://localhost:5000/#map" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map-marker"></i>&nbsp; Map</a>
+    <a href="http://localhost:5000/#about" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>&nbsp; About</a><br><br>
+      
   </div>
 </nav>
 
@@ -224,15 +272,16 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container" style="margin-left:330px">
   <div class="w3-content">
-    <div class="w3-twothird">
+    <div class="w3-center">
   <center>
-    <h1>{{ title }}</h1>
+    <h1>Usage of {{ title }}</h1>
   </center>
   <center>
     <canvas id="chart" width="600" height="400"></canvas>
     <script>
+       
         var getData = $.post('/bins');
-
+        
         getData.done(function(results) {
         
           // bar chart data
@@ -241,7 +290,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
               {% for item in labels %}
                "{{ item }}",
               {% endfor %}
-    	],
+        	],
     
             datasets : [{
               fillColor: "rgba(151,187,205,0.2)",
@@ -251,7 +300,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
                 {% for item in values %}
                    "{{ item }}",
                   {% endfor %}
-    	    ]
+        	    ]
               }
             ]
           }
@@ -277,6 +326,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
         setInterval('refreshPage()', 15000);
     });
+    
 
     function refreshPage() { 
         location.reload(); 
@@ -287,23 +337,28 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
     </div>
 
-    <div class="w3-third w3-center">
-    </div>
+
   </div>
 </div>
 
 <!-- Second Grid -->
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container" style="margin-left:330px">
   <div class="w3-content">
-    <div class="w3-third w3-center">
-    </div>
+    <div class="w3-center">
+        
 
-    <div class="w3-twothird">
-      <h1>Testo</h1>
-     
-    </div>
+
+
+
+
+<div class="callout" id="callout">
+  <div class="callout-header">Warning!</div>
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
+  <div class="callout-container">
+    <p> The bin is full and needs to be </p>
   </div>
 </div>
+
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64" style="margin-left:330px">
     <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
@@ -333,7 +388,17 @@ function myFunction() {
   }
 }
 </script>
+<script>
+     var d = JSON.parse("{{values}}");
+     function myFunction(){
+            var x = document.getElementById("callout");
+            x.classList.add("show");
+        }
+     
+     for (i = 0; i < d.length; i++) {
+                 console.log(d[i]);
+                 if (d[i] > 75) {myFunction();}
+        } 
+</script>
 
-
-</body></html>
  
