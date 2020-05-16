@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request
 from dbconnect import connection
+from flask_googlemaps import GoogleMaps
+from flask_googlemaps import Map, icons
 
 app = Flask(__name__)
+
+GoogleMaps(app, key="AIzaSyBQp1EK4oaTlzdzAfjlNX76_HHDv2khEYQ")
 
 @app.route("/")
 def homepage():
@@ -11,11 +15,67 @@ def homepage():
         cur.execute("SELECT user.name FROM user")
         user = cur.fetchall()
         user = [row[0] for row in user]
+        cur.execute("SELECT * FROM bin")
+        binn = cur.fetchall()
         cur.close()
-        return render_template('index.html', users=user)
+        bin_id = [row[0] for row in binn]
+        bin_type = [row[1] for row in binn]
+        bin_capacity = [row[2] for row in binn]
+        return render_template('index.html', users=user, bin_id=bin_id, bin_type=bin_type, bin_capacity=bin_capacity)
 
     except Exception as e:
         return('Connection error')
+
+
+
+@app.route("/example")
+def mapview():
+    mymap =Map(
+            identifier="view-side",
+            lat=43.715993,
+            lng=10.3960694,
+            markers=[(37.4419, -122.1419)]
+            )
+
+    sndmap = Map(
+            identifier="sndmap",
+            lat=43.715993,
+            lng=10.3960694,
+
+            markers=[
+                {
+                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'lat': 43.716248,
+                    'lng': -10.402882,
+                    'infobox':"<b>Hello Mann!!</b>"
+                },
+                {
+                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'lat': 43.718326,
+                    'lng': 10.398201,
+                    'infobox':"<b>Hello Womann!!</b>"
+                },
+                {
+                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'lat':43.719660 ,
+                    'lng':10.403909 ,
+                    'infobox':"<b>Hello Womann!!</b>"
+                },
+                {
+                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'lat':10.407044 ,
+                    'lng':43.722700 ,
+                    'infobox':"<b>Hello Womann!!</b>"
+                },
+                {
+                    'icon': "https://imagizer.imageshack.com/v2/100x75q90/922/fNtiZk.png",
+                    'lat':43.718481 , 
+                    'lng':10.408117 , 
+                    'infobox':"<b>Hello Womann!!</b>"
+                },
+                ]
+            )
+    return render_template('example.html', mymap=mymap, sndmap=sndmap)
 
 
 @app.route("/bins", methods= ['GET', 'POST'])
