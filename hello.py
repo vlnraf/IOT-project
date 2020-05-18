@@ -95,7 +95,7 @@ def mapview():
             style = "height: 700px; width:1200px; margin:0",
             zoom = "15"
             )
-    return render_template('example.html', sndmap=sndmap)
+    return render_template('map.html', sndmap=sndmap)
 
 
 @app.route("/bins", methods= ['GET', 'POST'])
@@ -165,10 +165,6 @@ def user_interaction():
             return('Connection error')
 
 
-
-
-
-
 @app.route("/weight", methods= ['GET', 'POST'])
 def user_weight():
     if request.method == 'POST':
@@ -192,3 +188,6 @@ def user_weight():
     
         except Exception as e:
             return('Connection error')
+
+if __name__ == '__main__':
+    app.run(host='localhost', port=5000)
