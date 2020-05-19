@@ -164,9 +164,8 @@ def user_interaction():
         except Exception as e:
             return('Connection error')
 
-
-@app.route("/weight", methods= ['GET', 'POST'])
-def user_weight():
+@app.route("/point", methods=['GET','POST'])
+def gamification():
     if request.method == 'POST':
         req = request.form
         name = req.get("utenti")
@@ -174,17 +173,16 @@ def user_weight():
         try:
             cur, conn = connection()
             cur = conn.cursor()
-            name = (str(name),)
-            sql = "SELECT user.name, SUM(user_interaction.garbage_weight), bin.type FROM user JOIN user_interaction ON user.card_id = user_interaction.user_id JOIN bin ON user_interaction.bin_id = bin.id WHERE user.name = %s GROUP BY bin.type"
+            sql = "SELECT user.name, user.points FROM user WHERE name = %s "
+            name = (str(name), )
             cur.execute(sql, name)
             data = cur.fetchall()
             user = [row[0] for row in data]
-            garbage = [row[1] for row in data]
-            bin_type = [row[2] for row in data]
-            cur.close()
-            bar_labels = bin_type
-            bar_values = garbage
-            return render_template('interaction.html', title=str(user[0]), max = 5000, labels=bar_labels, values=bar_values)
+            points = [row[1] for row in data]
+            bar_labels = user
+            bar_values = points
+            
+            return render_template('point.html', title=str(user[0]), max = 5000, labels=bar_labels, values=bar_values)
     
         except Exception as e:
             return('Connection error')
