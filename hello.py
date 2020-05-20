@@ -38,8 +38,6 @@ def mapview():
 
     icon = []
 
-    print(bin_capacity)
-
     for item in bin_capacity:
         if item == 0:
             icon.append("https://imagizer.imageshack.com/v2/100x75q90/922/5cNWwn.png")
@@ -64,31 +62,31 @@ def mapview():
                     'icon': icon[0],
                     'lat': 43.716248,
                     'lng': 10.402882,
-                    'infobox':"<p>" +str(bin_id[0])+ "</p> <p> " +str(bin_type[0])+ "</p> <p>" +str(bin_capacity[0])+ "%</p>"
+                    'infobox':"<p><b> ID: </b>" +str(bin_id[0])+ "</p> <p><b> Type: </b> " +str(bin_type[0])+ "</p> <p><b> Capacity: </b> " +str(bin_capacity[0])+ "%</p>"
                 },
                 {
                     'icon': icon[1],
                     'lat': 43.718326,
                     'lng': 10.398201,
-                    'infobox':"<p>" +str(bin_id[1])+ "</p> <p> " +str(bin_type[1])+ "</p> <p>" +str(bin_capacity[1])+ "%</p>"
+                    'infobox':"<p><b> ID: </b> " +str(bin_id[1])+ "</p> <p><b> Type: </b>  " +str(bin_type[1])+ "</p> <p><b> Capacity: </b> " +str(bin_capacity[1])+ "%</p>"
                 },
                 {
                     'icon': icon[2],
                     'lat':43.719660 ,
                     'lng':10.403909 ,
-                    'infobox':"<p>" +str(bin_id[2])+ "</p> <p> " +str(bin_type[2])+ "</p> <p>" +str(bin_capacity[2])+ "%</p>"
+                    'infobox':"<p><b> ID: </b> " +str(bin_id[2])+ "</p> <p><b> Type: </b>  " +str(bin_type[2])+ "</p> <p><b> Capacity: </b> " +str(bin_capacity[2])+ "%</p>"
                 },
                 {
                     'icon': icon[3],
                     'lat':43.716660,
                     'lng':10.403909,
-                    'infobox':"<p>" +str(bin_id[3])+ "</p> <p> " +str(bin_type[3])+ "</p> <p>" +str(bin_capacity[3])+ "%</p>"
+                    'infobox':"<p><b> ID: </b> " +str(bin_id[3])+ "</p> <p><b> Type: </b>  " +str(bin_type[3])+ "</p> <p><b> Capacity: </b> " +str(bin_capacity[3])+ "%</p>"
                 },
                 {
                     'icon': icon[4],
                     'lat':43.718481 , 
                     'lng':10.408117 , 
-                    'infobox':"<p>" +str(bin_id[4])+ "</p> <p> " +str(bin_type[4])+ "</p> <p>" +str(bin_capacity[4])+ "%</p>"
+                    'infobox':"<p><b> ID: </b> " +str(bin_id[4])+ "</p> <p><b> Type: </b>  " +str(bin_type[4])+ "</p> <p><b> Capacity: </b> " +str(bin_capacity[4])+ "%</p>"
                 },
                 ],
 
@@ -124,7 +122,6 @@ def user_interaction():
     if request.method == 'POST':
         req = request.form
         name = req.get("utenti")
-        print(name)
         try:
             cur, conn = connection()
             cur = conn.cursor()
@@ -148,18 +145,7 @@ def user_interaction():
             bar_labels1 = bin_type2
             bar_values1 = garbage2
 
-            
-            sql = "SELECT user.name, SUM(user_interaction.garbage_weight), bin.id FROM user JOIN user_interaction ON user.card_id = user_interaction.user_id JOIN bin ON user_interaction.bin_id = bin.id WHERE user.name = %s GROUP BY bin.type"
-            cur.execute(sql, name)
-            data = cur.fetchall()
-            user3 = [row[0] for row in data]
-            garbage3 = [row[1] for row in data]
-            bin_id = [row[2] for row in data]
-            cur.close()
-            bar_labels2 = bin_id
-            bar_values2 = garbage3
-            cur.close()
-            return render_template('user.html', title=str(user[0]), max = 5000, labels=bar_labels, values=bar_values, labels2=bar_labels1, values2=bar_values1, labels3=bar_labels2, values3=bar_values2)
+            return render_template('user.html', title=str(user[0]), max = 200, max2 = 1000, labels=bar_labels, values=bar_values, labels2=bar_labels1, values2=bar_values1)
     
         except Exception as e:
             return('Connection error')
@@ -169,7 +155,6 @@ def gamification():
     if request.method == 'POST':
         req = request.form
         name = req.get("utenti")
-        print(name)
         try:
             cur, conn = connection()
             cur = conn.cursor()
