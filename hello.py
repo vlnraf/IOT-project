@@ -2,10 +2,18 @@ from flask import Flask, render_template, request
 from dbconnect import connection
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+KEY = os.environ.get("GOOGLE_API_KEY")
 
 app = Flask(__name__)
 
-GoogleMaps(app, key="AIzaSyBQp1EK4oaTlzdzAfjlNX76_HHDv2khEYQ")
+GoogleMaps(app, key=KEY)
 
 @app.route("/")
 def homepage():
@@ -167,7 +175,7 @@ def gamification():
             bar_labels = user
             bar_values = points
             
-            return render_template('point.html', title=str(user[0]), max = 5000, labels=bar_labels, values=bar_values)
+            return render_template('point.html', title=str(user[0]), max = 500, labels=bar_labels, values=bar_values)
     
         except Exception as e:
             return('Connection error')
